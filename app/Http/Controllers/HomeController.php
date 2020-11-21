@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\FoodItem;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,9 +25,9 @@ class HomeController extends Controller
     public function index()
     {
         $fooditems=FoodItem::all();
-      
-      
-        return view('home')->with('fooditems',$fooditems);
+        $users = User::where('id', 7)->get();
+    
+        return view('home')->with('fooditems',$fooditems)->with('users',$users);
         //return view('home');
     }
     public function about()

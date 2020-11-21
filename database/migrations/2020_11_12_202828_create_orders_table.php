@@ -13,11 +13,16 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
+
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('refNumber');
-            $table->enum('status', ['pending', 'active', 'dispatched','received' ]);
+            $table->enum('status', ['pending', 'active', 'dispatched','received' ])->default('pending');
+            $table->string('contact_name');
+            $table->string('contact_phone')->unique();
             $table->string('address');
+            $table->string('total')->default(0);
             $table->timestamps();
         });
     }

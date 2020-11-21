@@ -16,7 +16,7 @@ class FoodCategoryTableSeeder extends Seeder
           //factory(FoodCategory::class,10)->create();
          factory(FoodCategory::class, 5)->create()->each(function ($food_category) {
          //create 5 posts for each user
-         factory(FoodItem::class, 10)->create(['category_id'=>$food_category->id]);
+         factory(FoodItem::class)->create(['category_id'=>$food_category->id]);
          });
    
   } 

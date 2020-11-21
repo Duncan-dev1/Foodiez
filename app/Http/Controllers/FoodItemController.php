@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\FoodItem;
+use App\OrderItem;
 use Illuminate\Http\Request;
 
 class FoodItemController extends Controller
@@ -13,7 +14,8 @@ class FoodItemController extends Controller
      */
     public function index()
     {
-        Return FoodItem::all();
+        //Return FoodItem::all();
+        Return FoodItem::where('order_id',2);
     }
 
     /**

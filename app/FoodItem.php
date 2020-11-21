@@ -10,4 +10,5 @@ class FoodItem extends Model
     public function foodcategory(){
         return $this->belongsTo(App\FoodCategory);
     }
+     
 }

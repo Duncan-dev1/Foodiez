@@ -24,22 +24,32 @@
         </div>
     </div>
     <div class="container">
-        <div class="row"> @foreach($fooditems as $fooditems)
+        {{--     <div class="row"> @foreach($fooditems as $fooditems)
             <div class="col-6">
 
                 <div class="card" style="width: 18rem;">
                     <img src="..." class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{$fooditems->food_name}}</h5>
-                        <p class="card-text">{{$fooditems->description}}
-                        </p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-
-            </div> @endforeach
-        </div>
+        <p class="card-text">{{$fooditems->description}}
+        </p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
+</div>
+
+</div> @endforeach
+</div> --}}
+<div class="row"> @foreach($users as $user)
+    <div class="col-6">
+
+        <ul>
+            <li>{{$user->name}}</li>
+
+        </ul>
+
+    </div> @endforeach
+</div>
+</div>
 
 
 </div>
