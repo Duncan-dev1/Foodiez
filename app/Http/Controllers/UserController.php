@@ -13,9 +13,7 @@ class Usercontroller extends Controller
      */
     public function index()
     {
-      //return User::all();
-       $users=User::where('role_id',3)->get();
-       return $users;
+      return User::all();
       
      
     }

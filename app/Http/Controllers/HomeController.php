@@ -25,8 +25,8 @@ class HomeController extends Controller
     public function index()
     {
         $fooditems=FoodItem::all();
-        $users = User::where('id', 7)->get();
-    
+        $users = User::all();
+   
         return view('home')->with('fooditems',$fooditems)->with('users',$users);
         //return view('home');
     }

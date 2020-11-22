@@ -17,6 +17,7 @@ class CreateFoodCategoriesTable extends Migration
             $table->bigIncrements('id');
            // $table->unsignedBigInteger ('category_id');
             $table->string('category_name');
+           // $table->enum('category_name',['snacks','meals','drinks','desserts','beverages']);//->default('meals');
             $table->timestamps();
         });
     }

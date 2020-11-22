@@ -7,7 +7,7 @@ use App\OrderItem;
 use App\Role;
 class UserTableSeeder extends Seeder
 {
-  private $roles=[];
+  
     /**
      * Run the database seeds.
      *
@@ -23,12 +23,9 @@ class UserTableSeeder extends Seeder
          
                 factory(OrderItem::class, 5)->create(['order_id'=>$order->id,
                 'food_item_id'=> function() {
-                      return factory(App\FoodItem::class)->create()->id;
-                      },
-                ]);//->each(function ($order_item){
-          //create 5 fooditems for each orderitem
-          // factory(FoodItem::class, 5)->create(['food_item_id'=>$order_item->id]);
-          // });
+                return factory(App\FoodItem::class)->create()->id;
+                },
+                ]);
           });
           
           });
@@ -50,20 +47,6 @@ class UserTableSeeder extends Seeder
          );
          });  */
 
-         //--------------
-         /*
-           factory(User::class,30)->create()->each(function($user){
-           factory(Order::class, 15)->create()->each(function ($order) {
-           //create 5 orderitems for each order
-           factory(OrderItem::class, 5)->create(['order_id'=>$order->id,
-           'food_item_id'=> function() {
-           return factory(App\FoodItem::class)->create()->id;
-           },
-           ]);//->each(function ($order_item){
-           //create 5 fooditems for each orderitem
-           // factory(FoodItem::class, 5)->create(['food_item_id'=>$order_item->id]);
-           // });
-           });
-           });   */
     }
+    
 }
