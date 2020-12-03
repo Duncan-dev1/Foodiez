@@ -25,4 +25,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resources([
 'user' => 'UserController',
 'food_items' => 'FoodItemController',
+'food_categories' => 'FoodCategoryController',
 ]);

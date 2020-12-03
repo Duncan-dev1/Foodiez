@@ -17,10 +17,10 @@ class CreateFoodItemsTable extends Migration
            $table->bigIncrements('id');
            $table->string('food_name');
            // $table->foreignId('category_id')->constrained('food_categories');
-           $table->unsignedBigInteger ('category_id');
+           $table->unsignedBigInteger ('category_id')->default(4);
          
          $table->foreign('category_id')->references('id')->on('food_categories');
-           $table->string('image');
+           $table->string('image')->nullable();
            $table->integer('price');
            $table->string('description');
            $table->string('quantity');

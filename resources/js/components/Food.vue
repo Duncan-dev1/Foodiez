@@ -3,7 +3,17 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">Food Component</div>
+                    <div class="card-header">
+                        Food Component
+                        <div>
+                            <b-button
+                                variant="info"
+                                @click="modalShow = !modalShow"
+                                class="float-right"
+                                >Add Food</b-button
+                            >
+                        </div>
+                    </div>
 
                     <div class="card-body">
                         <div class="foods">
@@ -40,9 +50,6 @@
                                                     right
                                                     href="#"
                                                     variant="primary"
-                                                    @click="
-                                                        modalShow = !modalShow
-                                                    "
                                                     >View</b-button
                                                 >
                                             </b-card>
@@ -53,14 +60,121 @@
                                 <!-- MODAL -->
                                 <div>
                                     <b-modal v-model="modalShow">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-6"></div>
-                                            </div>
-                                        </div>
+                                        <b-form
+                                            @submit.prevent="onSubmit()"
+                                            @reset="onReset"
+                                            v-if="show"
+                                        >
+                                            <b-form-group
+                                                id="input-group-1"
+                                                label="Dish Name:"
+                                                label-for="input-1"
+                                                description="We'll never share your email with anyone else."
+                                            >
+                                                <b-form-input
+                                                    id="input-1"
+                                                    v-model="form.food_name"
+                                                    type="text"
+                                                    required
+                                                    placeholder="Enter dish name"
+                                                ></b-form-input>
+                                            </b-form-group>
+                                            <b-form-group
+                                                id="input-group-1"
+                                                label="Dish Category:"
+                                                label-for="input-2"
+                                                description="Enter Dish category."
+                                            >
+                                                <b-form-input
+                                                    id="input-1"
+                                                    v-model="form.category_name"
+                                                    type="text"
+                                                    required
+                                                    placeholder="Enter dish category name"
+                                                ></b-form-input>
+                                            </b-form-group>
+                                            <!--test
+                                            <b-form-group
+                                                ><b-form-input
+                                                    ><b-form-select
+                                                        v-model="
+                                                            form.category_name
+                                                        "
+                                                        class="mb-3"
+                                                    >
+                                                        <b-form-select-option
+                                                            :value="null"
+                                                            >Please select an
+                                                            option</b-form-select-option
+                                                        >
+                                                        <b-form-select-option
+                                                            value="a"
+                                                            >Drinks
+                                                        </b-form-select-option>
+                                                        <b-form-select-option
+                                                            value="a"
+                                                            >Meals
+                                                        </b-form-select-option>
+                                                    </b-form-select></b-form-input
+                                                ></b-form-group
+                                            >
+
+                                            -->
+                                            <b-form-group
+                                                id="input-group-1"
+                                                label="description:"
+                                                label-for="input-1"
+                                                description="brief description."
+                                            >
+                                                <b-form-input
+                                                    id="input-1"
+                                                    v-model="form.description"
+                                                    type="text"
+                                                    required
+                                                    placeholder="Write a brief description"
+                                                ></b-form-input>
+                                            </b-form-group>
+                                            <b-form-group
+                                                id="input-group-1"
+                                                label="Price:"
+                                                label-for="input-1"
+                                                description="Price."
+                                            >
+                                                <b-form-input
+                                                    id="input-1"
+                                                    v-model="form.price"
+                                                    type="number"
+                                                    required
+                                                    placeholder="Enter Price"
+                                                ></b-form-input>
+                                            </b-form-group>
+                                            <b-form-group
+                                                id="input-group-1"
+                                                label="Quantity:"
+                                                label-for="input-1"
+                                                description="Quantity."
+                                            >
+                                                <b-form-input
+                                                    id="input-1"
+                                                    v-model="form.quantity"
+                                                    type="number"
+                                                    required
+                                                    placeholder="Enter Quantity"
+                                                ></b-form-input>
+                                            </b-form-group>
+
+                                            <b-button
+                                                type="submit"
+                                                variant="primary"
+                                                class="float-right"
+                                                >Submit</b-button
+                                            >
+                                        </b-form>
                                     </b-modal>
                                 </div>
                                 <!-- End of Modal -->
+
+                                <!-- new modal -->
                             </div>
                         </div>
                     </div>
@@ -72,21 +186,62 @@
 
 <script>
 export default {
+    props: ["category_name", "id"],
     data() {
         return {
             food_items: {
-                props: ["title"]
+                // props: ["title"]
             },
-            modalShow: false
-            // foods:{!! json_encode($food->food_name) !!}
+            modalShow: false,
+            show: true,
+            form: {
+                food_name: "",
+                category_name: "",
+                description: "",
+                price: null,
+                quantity: null
+                //checked: []
+            }
         };
     },
     methods: {
+        /*   createFood() {
+            this.form.post("api/food_items");
+        },  */
         loadFood() {
             axios
                 .get("api/food_items")
 
                 .then(response => (this.food_items = response.data));
+        },
+        onSubmit() {
+            // evt.preventDefault();
+            //alert("hahah");
+            axios.post("api/food_items");
+            this.modalShow = false;
+        },
+        /*createFood(evt) {
+            evt.preventDefault();
+            alert("awesome");
+            console.log("awesome shit");
+            // alert(JSON.stringify(this.form));
+            //this.form.post("api/food_items");
+            // axios.post("api/food_items");
+        },*/
+        onReset(evt) {
+            evt.preventDefault();
+            // Reset our form values
+            this.form.food_name = "";
+            this.form.category_name = "";
+            this.form.description = "";
+            this.form.price = "";
+            this.form.quantity = "";
+            //this.form.checked = [];
+            // Trick to reset/clear native browser form validation state
+            this.show = false;
+            this.$nextTick(() => {
+                this.show = true;
+            });
         }
     },
     created() {

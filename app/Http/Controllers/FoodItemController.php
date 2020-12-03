@@ -14,8 +14,8 @@ class FoodItemController extends Controller
      */
     public function index()
     {
-        //Return FoodItem::all();
-        Return FoodItem::where('order_id',2);
+        Return FoodItem::all();
+       // Return FoodItem::where('order_id',2);
     }
 
     /**
@@ -25,7 +25,7 @@ class FoodItemController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -36,7 +36,23 @@ class FoodItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      /* $validatedData = $request->validate([
+            'food_name' =>'required|string|max:191',
+            'description' => 'required|string|email|max:191',
+            'price'=>'required|integer|max:6',
+            'quantity'=>'required|string|max:6',
+            'image'=>'nullable|string|max:6',
+            ]);
+*/
+            return FoodItem::create([
+            'food_name'=>$request['food_name'],
+            'category_id'=>$request['category_id'],
+            'description'=>$request['description'],
+            'price'=>$request['price'],
+            'quantity'=>$request['quantity'],
+            'image'=>$request['image'],
+         
+            ]);    
     }
 
     /**

@@ -32,12 +32,14 @@ Vue.component('test', require('./components/Test.vue').default);
 Vue.component('order', require('./components/Order.vue').default);
 Vue.component('food', require('./components/Food.vue').default);
 Vue.component('food-item', require('./components/FoodItem.vue').default);
+Vue.component('food-category', require('./components/FoodCategory.vue').default);
 
 import ExampleComponent from './components/ExampleComponent.vue';
 import Test from './components/Test.vue';
 import Order from './components/Order.vue';
 import Food from './components/Food.vue';
 import FoodItem from './components/FoodItem.vue';
+import FoodCategory from './components/FoodCategory.vue';
  
 
 export const routes = [{
@@ -64,6 +66,11 @@ export const routes = [{
   path: '/food-item',
   component: FoodItem,
   name: 'food-item' 
+},
+{
+  path: '/food-category',
+  component: FoodCategory,
+  name: 'food-category' 
 },
 ]
 
