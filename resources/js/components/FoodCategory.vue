@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="card-body">
-                        <div class="foods">
+                        <div class="foodcategories">
                             <div class="container">
                                 <div class="row">
                                     <div
@@ -29,6 +29,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div>
                             <b-modal v-model="modalShow">
                                 <b-form
@@ -70,10 +71,12 @@
                 </div>
             </div>
         </div>
+        <food :food_categories="food_categories" />
     </div>
 </template>
 
 <script>
+//import Food from "./Food.vue";
 export default {
     data() {
         return {

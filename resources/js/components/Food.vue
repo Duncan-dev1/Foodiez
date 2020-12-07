@@ -79,6 +79,7 @@
                                                     placeholder="Enter dish name"
                                                 ></b-form-input>
                                             </b-form-group>
+                                            <!--
                                             <b-form-group
                                                 id="input-group-1"
                                                 label="Dish Category:"
@@ -92,34 +93,36 @@
                                                     required
                                                     placeholder="Enter dish category name"
                                                 ></b-form-input>
-                                            </b-form-group>
-                                            <!--test
-                                            <b-form-group
-                                                ><b-form-input
-                                                    ><b-form-select
-                                                        v-model="
-                                                            form.category_name
-                                                        "
-                                                        class="mb-3"
+                                            </b-form-group>    -->
+                                            <!--test  -->
+                                            <b-form-group>
+                                                <b-form-select
+                                                    v-model="form.category_id"
+                                                    class="mb-3"
+                                                >
+                                                    <b-form-select-option
+                                                        value="null"
+                                                        >Please select an
+                                                        option</b-form-select-option
                                                     >
-                                                        <b-form-select-option
-                                                            :value="null"
-                                                            >Please select an
-                                                            option</b-form-select-option
-                                                        >
-                                                        <b-form-select-option
-                                                            value="a"
-                                                            >Drinks
-                                                        </b-form-select-option>
-                                                        <b-form-select-option
-                                                            value="a"
-                                                            >Meals
-                                                        </b-form-select-option>
-                                                    </b-form-select></b-form-input
-                                                ></b-form-group
-                                            >
+                                                    <b-form-select-option
+                                                        v-for="food_category in food_categories"
+                                                        :key="food_category.id"
+                                                        :value="
+                                                            food_category.id
+                                                        "
+                                                        >{{
+                                                            food_category.category_name
+                                                        }}
+                                                    </b-form-select-option>
+                                                    <!--  <b-form-select-option
+                                                        value="b"
+                                                        >Meals
+                                                    </b-form-select-option>-->
+                                                </b-form-select>
+                                            </b-form-group>
 
-                                            -->
+                                            <!--test -->
                                             <b-form-group
                                                 id="input-group-1"
                                                 label="description:"
@@ -185,8 +188,9 @@
 </template>
 
 <script>
+//import FoodCategory from "./FoodCategory.vue";
 export default {
-    props: ["category_name", "id"],
+    props: ["food_categories"],
     data() {
         return {
             food_items: {
@@ -194,8 +198,11 @@ export default {
             },
             modalShow: false,
             show: true,
+
             form: {
+                id: "",
                 food_name: "",
+                category_id: null,
                 category_name: "",
                 description: "",
                 price: null,
@@ -217,7 +224,13 @@ export default {
         onSubmit() {
             // evt.preventDefault();
             //alert("hahah");
-            axios.post("api/food_items");
+            axios.post("api/food_items", {
+                food_name: this.form.food_name,
+                category_id: this.form.category_id,
+                description: this.form.description,
+                price: this.form.price,
+                quantity: this.form.quantity
+            });
             this.modalShow = false;
         },
         /*createFood(evt) {
@@ -232,7 +245,7 @@ export default {
             evt.preventDefault();
             // Reset our form values
             this.form.food_name = "";
-            this.form.category_name = "";
+            this.form.category_id = "";
             this.form.description = "";
             this.form.price = "";
             this.form.quantity = "";
