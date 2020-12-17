@@ -8,7 +8,7 @@
                         <div>
                             <b-button
                                 variant="info"
-                                @click="modalShow = !modalShow"
+                                @click="newModal()"
                                 class="float-right"
                                 >Add Food</b-button
                             >
@@ -44,13 +44,18 @@
                                                 <b-button
                                                     href="#"
                                                     variant="info"
-                                                    >Order</b-button
+                                                    @click="
+                                                        editModal(food_item)
+                                                    "
+                                                    >Edit</b-button
                                                 >
                                                 <b-button
-                                                    right
+                                                    @click="
+                                                        deleteFood(food_item.id)
+                                                    "
                                                     href="#"
                                                     variant="primary"
-                                                    >View</b-button
+                                                    >delete</b-button
                                                 >
                                             </b-card>
                                         </div>
@@ -61,7 +66,11 @@
                                 <div>
                                     <b-modal v-model="modalShow">
                                         <b-form
-                                            @submit.prevent="onSubmit()"
+                                            @submit.prevent="
+                                                editMode
+                                                    ? updateFood()
+                                                    : createFood()
+                                            "
                                             @reset="onReset"
                                             v-if="show"
                                         >
@@ -79,46 +88,26 @@
                                                     placeholder="Enter dish name"
                                                 ></b-form-input>
                                             </b-form-group>
-                                            <!--
                                             <b-form-group
                                                 id="input-group-1"
                                                 label="Dish Category:"
-                                                label-for="input-2"
-                                                description="Enter Dish category."
+                                                label-for="input-1"
                                             >
-                                                <b-form-input
-                                                    id="input-1"
-                                                    v-model="form.category_name"
-                                                    type="text"
-                                                    required
-                                                    placeholder="Enter dish category name"
-                                                ></b-form-input>
-                                            </b-form-group>    -->
-                                            <!--test  -->
-                                            <b-form-group>
                                                 <b-form-select
                                                     v-model="form.category_id"
+                                                    :options="foods"
                                                     class="mb-3"
+                                                    placeholder="Enter dish name"
                                                 >
-                                                    <b-form-select-option
-                                                        value="null"
-                                                        >Please select an
-                                                        option</b-form-select-option
-                                                    >
-                                                    <b-form-select-option
-                                                        v-for="food_category in food_categories"
-                                                        :key="food_category.id"
-                                                        :value="
-                                                            food_category.id
-                                                        "
-                                                        >{{
-                                                            food_category.category_name
-                                                        }}
-                                                    </b-form-select-option>
-                                                    <!--  <b-form-select-option
-                                                        value="b"
-                                                        >Meals
-                                                    </b-form-select-option>-->
+                                                    <template #first>
+                                                        <b-form-select-option
+                                                            :value="null"
+                                                            disabled
+                                                        >
+                                                            Please select a
+                                                            suitable category
+                                                        </b-form-select-option>
+                                                    </template>
                                                 </b-form-select>
                                             </b-form-group>
 
@@ -165,12 +154,30 @@
                                                     placeholder="Enter Quantity"
                                                 ></b-form-input>
                                             </b-form-group>
-
+                                            <b-form-group
+                                                id="input-group-1"
+                                                label="Units :"
+                                                label-for="input-1"
+                                            >
+                                                <b-form-select
+                                                    v-model="form.units"
+                                                    :options="options"
+                                                ></b-form-select>
+                                            </b-form-group>
                                             <b-button
                                                 type="submit"
+                                                v-show="!editMode"
                                                 variant="primary"
                                                 class="float-right"
                                                 >Submit</b-button
+                                            >
+                                            <b-button
+                                                @click="updateFood"
+                                                type="submit"
+                                                v-show="editMode"
+                                                variant="primary"
+                                                class="float-right"
+                                                >Update</b-button
                                             >
                                         </b-form>
                                     </b-modal>
@@ -188,17 +195,15 @@
 </template>
 
 <script>
-//import FoodCategory from "./FoodCategory.vue";
 export default {
     props: ["food_categories"],
     data() {
         return {
-            food_items: {
-                // props: ["title"]
-            },
+            food_items: [],
+
             modalShow: false,
             show: true,
-
+            editMode: false,
             form: {
                 id: "",
                 food_name: "",
@@ -206,44 +211,143 @@ export default {
                 category_name: "",
                 description: "",
                 price: null,
-                quantity: null
+                quantity: null,
+                units: null
                 //checked: []
-            }
+            },
+            units: null,
+            options: [
+                { value: null, text: "Please select an appropriate unit" },
+                { value: "pieces", text: "pieces" },
+                { value: "servings", text: "servings" },
+                { value: "kgs", text: "Kgs" },
+                {
+                    label: "Weighted Units",
+                    options: [
+                        { value: "grams", text: "Grams" },
+                        { value: "Kilograms", text: "Kilograms" }
+                    ]
+                }
+            ]
         };
     },
     methods: {
-        /*   createFood() {
-            this.form.post("api/food_items");
-        },  */
         loadFood() {
             axios
                 .get("api/food_items")
 
                 .then(response => (this.food_items = response.data));
         },
-        onSubmit() {
-            // evt.preventDefault();
-            //alert("hahah");
-            axios.post("api/food_items", {
-                food_name: this.form.food_name,
-                category_id: this.form.category_id,
-                description: this.form.description,
-                price: this.form.price,
-                quantity: this.form.quantity
+        createFood() {
+            axios
+                .post("api/food_items", {
+                    id: this.form.id,
+                    food_name: this.form.food_name,
+                    category_id: this.form.category_id,
+
+                    description: this.form.description,
+                    price: this.form.price,
+                    quantity: this.form.quantity,
+                    units: this.form.units
+                })
+                .then(() => {
+                    Toast.fire({
+                        type: "success",
+                        title: "Category created successfully"
+                    });
+                    this.modalShow = false;
+                    Fire.$emit("afterCreate");
+                })
+                .catch(() => {});
+        },
+        newModal() {
+            this.editMode = false;
+            this.modalShow = true;
+        },
+        editModal(id) {
+            this.editMode = true;
+            this.modalShow = true;
+            this.form = id;
+        },
+        updateFood() {
+            Swal.fire({
+                title: "Are you sure you want to update?",
+
+                showCancelButton: true,
+                confirmButtonColor: "green",
+                cancelButtonColor: "gray",
+                confirmButtonText: "Yes, update it!"
+            }).then(result => {
+                if (result.value) {
+                    axios
+                        .put("api/food_items/" + this.form.id, {
+                            id: this.form.id,
+                            food_name: this.form.food_name,
+                            category_id: this.form.category_id,
+
+                            description: this.form.description,
+                            price: this.form.price,
+                            quantity: this.form.quantity,
+                            units: this.form.units
+                        })
+                        .then(() => {
+                            Toast.fire({
+                                type: "success",
+                                title: "Food item  updated"
+                            });
+
+                            this.form = "";
+                            Fire.$emit("afterCreate");
+                        })
+                        .catch(() => {
+                            Swal.fire(
+                                "Failed!",
+                                "There was something wrong.",
+                                "warning"
+                            );
+                        });
+                }
             });
             this.modalShow = false;
         },
-        /*createFood(evt) {
-            evt.preventDefault();
-            alert("awesome");
-            console.log("awesome shit");
-            // alert(JSON.stringify(this.form));
-            //this.form.post("api/food_items");
-            // axios.post("api/food_items");
-        },*/
+        deleteFood(id) {
+            alert("delete");
+            this.$swal({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                width: 400,
+
+                showCancelButton: true,
+                // confirmButtonColor: "#5bc0de",
+                // cancelButtonColor: "#d33",
+                confirmButtonText: "Yessir, delete it!"
+            }).then(result => {
+                if (result.isConfirmed) {
+                    axios
+                        .delete("api/food_items/" + id)
+                        .then(() => {
+                            this.$swal(
+                                "Deleted!",
+                                "Your file has been deleted.",
+                                "success"
+                            );
+                            Fire.$emit("afterCreate");
+                        })
+                        .catch(() => {
+                            Swal.fire(
+                                "Failed!",
+                                "There was something wronge.",
+                                "warning"
+                            );
+                        });
+                }
+            });
+        },
         onReset(evt) {
             evt.preventDefault();
             // Reset our form values
+            this.form.id = null;
             this.form.food_name = "";
             this.form.category_id = "";
             this.form.description = "";
@@ -257,9 +361,20 @@ export default {
             });
         }
     },
+
     created() {
         this.loadFood();
-        console.log("Component mounted.");
+        Fire.$on("afterCreate", () => {
+            this.loadFood();
+        });
+    },
+    computed: {
+        foods() {
+            return this.food_categories.map(x => ({
+                value: x.id,
+                text: x.category_name
+            }));
+        }
     }
 };
 </script>

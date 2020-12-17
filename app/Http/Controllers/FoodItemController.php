@@ -25,7 +25,7 @@ class FoodItemController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -36,23 +36,28 @@ class FoodItemController extends Controller
      */
     public function store(Request $request)
     {
-      /* $validatedData = $request->validate([
-            'food_name' =>'required|string|max:191',
-            'description' => 'required|string|email|max:191',
-            'price'=>'required|integer|max:6',
-            'quantity'=>'required|string|max:6',
-            'image'=>'nullable|string|max:6',
-            ]);
-*/
+   /*   $validatedData = $request->validate([
+      'food_name' =>'required|string|max:191',
+      'category_id' =>'required|integer|max:191',
+      'description' =>'required|string|max:191',
+      'price' =>'required|integer|max:191',
+      'quantity' =>'required|string|max:191',
+      'units' =>'required|string|max:191',
+      'image' =>'nullable|string|max:191',
+
+      ]);
+
+info($request->all());*/
             return FoodItem::create([
             'food_name'=>$request['food_name'],
             'category_id'=>$request['category_id'],
             'description'=>$request['description'],
             'price'=>$request['price'],
             'quantity'=>$request['quantity'],
+            'units'=>$request['units'],
             'image'=>$request['image'],
-         
-            ]);    
+
+            ]);
     }
 
     /**
@@ -87,7 +92,8 @@ class FoodItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $food_item=FoodItem::findOrFail($id);
+        $food_item-> update($request->all());
     }
 
     /**
@@ -98,6 +104,7 @@ class FoodItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+         $food_item=FoodItem::findOrFail($id);
+         $food_item->delete();
     }
 }

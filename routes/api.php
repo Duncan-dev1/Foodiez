@@ -1,5 +1,5 @@
 <?php
-
+use App\FoodCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,6 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::apiResources(['user'=>'Api\UserController']);
 //Route::apiResources(['food'=>'Api\FoodItemController']);
 //Route::get('food','api\FoodItemController@index');
+//Route::delete('api/food_categories/{id}', 'FoodCategoryController@destroy');
+//Route::put('food_categories/{food_category}', 'FoodCategoryController@update');
 Route::resources([
 'user' => 'UserController',
 'food_items' => 'FoodItemController',

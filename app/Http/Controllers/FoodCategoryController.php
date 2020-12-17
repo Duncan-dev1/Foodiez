@@ -78,7 +78,8 @@ class FoodCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+          $food_category=FoodCategory::findOrFail($id);
+         $food_category-> update($request->all());
     }
 
     /**
@@ -89,6 +90,7 @@ class FoodCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+           $food_category=FoodCategory::findOrFail($id);
+           $food_category->delete();
     }
 }

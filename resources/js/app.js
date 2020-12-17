@@ -7,12 +7,37 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.Fire=new Vue();
 
+
+import VueSweetalert2 from 'vue-sweetalert2';
+import Swal from 'sweetalert2';
 import VueRouter from 'vue-router';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+Vue.use(VueSweetalert2, options);
+
+const options = {
+  confirmButtonColor: '#5bc0de',
+  cancelButtonColor: '#ff7674',
+ 
+};
+window.Swal=Swal;
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 2000,
+  timerProgressBar: true,
+  didOpen: (toast) => {
+    toast.addEventListener('mouseenter', Swal.stopTimer)
+    toast.addEventListener('mouseleave', Swal.resumeTimer)
+  }
+})
+window.Toast=Toast;
 
 
 /**

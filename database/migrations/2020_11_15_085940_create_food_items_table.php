@@ -19,11 +19,12 @@ class CreateFoodItemsTable extends Migration
            // $table->foreignId('category_id')->constrained('food_categories');
            $table->unsignedBigInteger ('category_id')->default(4);
          
-         $table->foreign('category_id')->references('id')->on('food_categories');
+         $table->foreign('category_id')->references('id')->on('food_categories')->onDelete('cascade');
            $table->string('image')->nullable();
            $table->integer('price');
            $table->string('description');
            $table->string('quantity');
+           $table->string('units');
 
            $table->timestamps();
         });
