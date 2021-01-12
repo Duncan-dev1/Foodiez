@@ -20,6 +20,9 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueSweetalert2, options);
 
+import Vue from 'vue';
+ export const bus=new Vue();
+
 const options = {
   confirmButtonColor: '#5bc0de',
   cancelButtonColor: '#ff7674',

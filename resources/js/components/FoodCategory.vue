@@ -4,7 +4,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
-                        Example Component
+                        Category Component
                         <div>
                             <b-button
                                 variant="info"
@@ -117,6 +117,7 @@
 </template>
 
 <script>
+import { bus } from "../app";
 import Food from "./Food.vue";
 export default {
     components: {

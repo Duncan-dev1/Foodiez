@@ -12,6 +12,12 @@
                                 class="float-right"
                                 >Add Food</b-button
                             >
+                            <b-button
+                                variant="success"
+                                class="float-right"
+                                @click="fetchFoods()"
+                                >Test</b-button
+                            >
                         </div>
                     </div>
 
@@ -195,12 +201,17 @@
 </template>
 
 <script>
+import { bus } from "../app";
+
 export default {
+    //provide: { mySharedData: this.mySharedData },
     props: ["food_categories"],
     data() {
         return {
+            //mySharedData:{},
             food_items: [],
-
+            cat: "mashakura",
+            chakula: ["hlell", "chapo", "mandazi"],
             modalShow: false,
             show: true,
             editMode: false,
@@ -237,6 +248,7 @@ export default {
                 .get("api/food_items")
 
                 .then(response => (this.food_items = response.data));
+            // .then(response => (this.mySharedData.food_items = response.data));
         },
         createFood() {
             axios
@@ -359,7 +371,8 @@ export default {
             this.$nextTick(() => {
                 this.show = true;
             });
-        }
+        },
+        fetchFoods() {}
     },
 
     created() {
@@ -367,6 +380,11 @@ export default {
         Fire.$on("afterCreate", () => {
             this.loadFood();
         });
+
+        bus.$emit("foodFetched", this.food_items);
+        // this.fetchFoods();
+
+        // bus.$emit("testStuff", this.food_items);
     },
     computed: {
         foods() {
