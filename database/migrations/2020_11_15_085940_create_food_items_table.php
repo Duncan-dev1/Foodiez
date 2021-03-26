@@ -28,6 +28,9 @@ class CreateFoodItemsTable extends Migration
 
            $table->timestamps();
         });
+         Schema::table('food_items', function($table) {
+         $table->integer('type');
+         });
     }
 
     /**
@@ -38,5 +41,8 @@ class CreateFoodItemsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('food_items');
+        Schema::table('food_items', function($table) {
+        $table->dropColumn('type');
+        });
     }
 }

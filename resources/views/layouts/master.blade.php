@@ -15,7 +15,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Font Awesome Icons -->
 
     <link rel="stylesheet" href="/css/app.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -161,10 +161,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link to="/example-component" class="nav-link">
+                            <router-link to="/order" class="nav-link">
                                 <i class="nav-icon fas fa-stroopwafel"></i>
                                 <p>
-                                    Example
+                                    Order
 
                                 </p>
                             </router-link>

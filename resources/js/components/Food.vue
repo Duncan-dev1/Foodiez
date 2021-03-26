@@ -46,7 +46,12 @@
                                                         food_item.description
                                                     }}</b-card-text
                                                 >
-
+                                                <b-button
+                                                    href="#"
+                                                    variant="info"
+                                                    @click="order(food_item)"
+                                                    >Order</b-button
+                                                >
                                                 <b-button
                                                     href="#"
                                                     variant="info"
@@ -201,6 +206,7 @@
 </template>
 
 <script>
+
 import { bus } from "../app";
 
 export default {
@@ -232,6 +238,7 @@ export default {
                 { value: "pieces", text: "pieces" },
                 { value: "servings", text: "servings" },
                 { value: "kgs", text: "Kgs" },
+                { value: "liters", text: "liters" },
                 {
                     label: "Weighted Units",
                     options: [
